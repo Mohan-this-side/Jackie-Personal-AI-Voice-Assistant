@@ -18,7 +18,9 @@ Jackie is an AI voice assistant that can:
 ## 🏗️ System Architecture & Data Flow
 
 ```mermaid
-%%{init: {'theme':'forest'}}%%
+%%{init: {theme: 'forest',
+  layout: 'elk',
+  look: 'neo'}}%%
 flowchart TD
     subgraph "🌐 Client"
         A[Web Browser] --> B[🎤 Voice Input]
