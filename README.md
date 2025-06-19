@@ -18,78 +18,83 @@ Jackie is an AI voice assistant that can:
 ## 🏗️ System Architecture & Data Flow
 
 ```mermaid
-%%{init: {theme: 'forest',
-  layout: 'elk',
-  look: 'neo'}}%%
+%%{init: {
+  'theme': 'forest',
+  'themeVariables': {
+    'primaryColor': '#e8f5e9',
+    'primaryTextColor': '#1b5e20',
+    'primaryBorderColor': '#2e7d32',
+    'lineColor': '#388e3c',
+    'secondaryColor': '#c8e6c9',
+    'tertiaryColor': '#a5d6a7',
+    'background': '#f1f8e9',
+    'mainBkg': '#e8f5e9',
+    'secondBkg': '#c8e6c9',
+    'tertiaryBkg': '#a5d6a7'
+  },
+  'flowchart': {
+    'nodeSpacing': 60,
+    'rankSpacing': 80,
+    'curve': 'basis'
+  }
+}}%%
 flowchart TD
-    subgraph "🌐 Client"
-        A[Web Browser] --> B[🎤 Voice Input]
-        A --> C[💬 Chat Interface]
-    end
+    %% User Input Layer
+    A["🌐 USER<br/><b>Web Browser</b>"] --> B["🎤 VOICE INPUT<br/><b>Microphone Recording</b>"]
     
-    subgraph "☁️ Modal.com Infrastructure"
-        D[FastAPI Server] --> E[WebSocket Handler]
-        E --> F[🧠 Voice Assistant Engine]
-    end
+    %% Network & Infrastructure Layer  
+    B --> C["📡 WEBSOCKET<br/><b>Real-time Connection</b>"]
+    C --> D["☁️ MODAL.COM<br/><b>FastAPI Server</b>"]
     
-    subgraph "🎤 Speech Processing"
-        F --> G[Speech-to-Text]
-        G --> G1[Groq Whisper]
-        G --> G2[Local Whisper]
-        G --> G3[OpenAI Whisper]
-    end
+    %% Core Engine Layer
+    D --> E["🧠 JACKIE ENGINE<br/><b>Voice Assistant Core</b>"]
     
-    subgraph "🤖 AI Processing"
-        F --> H[LLM Engine]
-        H --> H1[Groq API<br/>llama-3.3-70b]
-        H --> H2[OpenAI GPT<br/>Fallback]
-        
-        F --> I[🔍 Web Search]
-        I --> I1[DuckDuckGo API]
-        I --> I2[Web Scraper]
-    end
+    %% Speech-to-Text Processing
+    E --> F["🎤 SPEECH-TO-TEXT<br/><b>Audio → Text Conversion</b>"]
+    F --> F1["⚡ GROQ WHISPER<br/><b>Primary STT (Fast)</b>"]
+    F --> F2["🏠 LOCAL WHISPER<br/><b>Fallback STT</b>"]
+    F --> F3["🔄 OPENAI WHISPER<br/><b>Backup STT</b>"]
     
-    subgraph "🗣️ Speech Synthesis"
-        F --> J[Text-to-Speech]
-        J --> J1[Microsoft Edge TTS<br/>FREE]
-        J --> J2[OpenAI TTS<br/>Premium]
-    end
+    %% AI Processing & Decision
+    F1 --> G["🤖 LLM PROCESSING<br/><b>Intelligence & Reasoning</b>"]
+    F2 --> G
+    F3 --> G
     
-    subgraph "🔐 Configuration"
-        K[API Keys<br/>Modal Secrets]
-        L[Personal Context<br/>Professional Info]
-    end
+    G --> H["⚡ GROQ API<br/><b>Llama-3.3-70b-Versatile</b>"]
+    G --> I["🌐 WEB SEARCH<br/><b>Current Information</b>"]
     
-    %% Data Flow
-    B --> E
-    E --> F
-    G1 -.-> H1
-    H1 --> J1
-    J1 --> C
+    %% Web Search Sub-flow
+    I --> I1["🦆 DUCKDUCKGO<br/><b>Privacy Search</b>"]
+    I1 --> I2["📄 WEB SCRAPER<br/><b>Content Extraction</b>"]
+    I2 --> H
     
-    %% Search Flow
-    H1 -.-> I1
-    I1 --> I2
-    I2 -.-> H1
+    %% Response Generation
+    H --> J["🗣️ TEXT-TO-SPEECH<br/><b>Text → Audio Conversion</b>"]
+    J --> J1["🎵 MICROSOFT EDGE TTS<br/><b>High Quality (FREE)</b>"]
+    J --> J2["🔊 OPENAI TTS<br/><b>Premium Option</b>"]
     
-    %% Configuration
-    F -.-> K
-    F -.-> L
+    %% Response Delivery
+    J1 --> K["📤 RESPONSE<br/><b>Text + Audio</b>"]
+    J2 --> K
+    K --> C
+    C --> L["💬 USER INTERFACE<br/><b>Chat + Voice Output</b>"]
     
-    %% Response Path
-    J1 --> E
-    E --> A
+    %% Configuration (Side connections)
+    M["🔐 API KEYS<br/><b>Modal Secrets</b>"] -.-> E
+    N["👤 PERSONAL CONTEXT<br/><b>Professional Info</b>"] -.-> E
     
-    %% Styling with forest theme colors
-    classDef client fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
-    classDef modal fill:#a5d6a7,stroke:#388e3c,stroke-width:3px
-    classDef ai fill:#81c784,stroke:#43a047,stroke-width:3px
-    classDef config fill:#66bb6a,stroke:#2e7d32,stroke-width:2px
+    %% Enhanced styling for visibility
+    classDef userLayer fill:#e8f5e9,stroke:#2e7d32,stroke-width:4px,color:#1b5e20,font-size:14px,font-weight:bold
+    classDef infraLayer fill:#c8e6c9,stroke:#388e3c,stroke-width:4px,color:#1b5e20,font-size:14px,font-weight:bold
+    classDef coreLayer fill:#a5d6a7,stroke:#43a047,stroke-width:4px,color:#1b5e20,font-size:14px,font-weight:bold
+    classDef aiLayer fill:#81c784,stroke:#2e7d32,stroke-width:4px,color:#1b5e20,font-size:14px,font-weight:bold
+    classDef configLayer fill:#66bb6a,stroke:#1b5e20,stroke-width:3px,color:#1b5e20,font-size:12px,font-weight:bold
     
-    class A,B,C client
-    class D,E,F modal
-    class G,G1,G2,G3,H,H1,H2,I,I1,I2,J,J1,J2 ai
-    class K,L config
+    class A,B,L userLayer
+    class C,D infraLayer
+    class E coreLayer
+    class F,F1,F2,F3,G,H,I,I1,I2,J,J1,J2,K aiLayer
+    class M,N configLayer
 ```
 
 ## 🚀 Quick Start
