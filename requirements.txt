@@ -1,0 +1,33 @@
+# Core Dependencies
+modal==0.63.15
+fastapi[all]==0.104.1
+websockets==12.0
+
+# AI/ML APIs
+groq==0.4.1
+openai==1.3.8
+
+# Audio Processing
+librosa==0.10.1
+soundfile==0.12.1
+edge-tts==6.1.9
+whisper==1.1.10
+torchaudio==2.1.0
+
+# ML/Data Processing
+torch==2.1.0
+transformers==4.35.2
+accelerate==0.24.1
+datasets[audio]==2.14.6
+numpy==1.24.3
+scipy==1.11.4
+
+# Web/HTTP
+requests==2.31.0
+httpx==0.24.1
+python-multipart==0.0.6
+aiofiles==23.2.1
+
+# Web Scraping & Search
+beautifulsoup4==4.12.2
+duckduckgo-search==3.9.6 
