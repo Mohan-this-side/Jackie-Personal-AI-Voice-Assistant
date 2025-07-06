@@ -15,6 +15,13 @@ Jackie is an AI voice assistant that can:
 - 🎤 **Voice conversations** with natural speech-to-speech interaction
 - ⚡ **Ultra-fast responses** powered by Groq's optimized inference
 
+## 🙋‍♀️ Talk with Jackie
+
+The application is deployed using Modal's serverless platform. You can view the deployment status at:
+
+**Jackie resides here:** https://mohan-this-side--mohan-voice-assistant-latest-fastapi-app.modal.run/
+
+
 ## 🏗️ System Architecture & Data Flow
 
 ```mermaid
